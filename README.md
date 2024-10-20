@@ -28,6 +28,10 @@ You can log in with your existing Google Account and Explore the Quizzes.
 
 <img src="https://github.com/user-attachments/assets/af06a254-370a-422d-b90e-a644262e9f44" width="300" hieght="100" />
 
+### Previous Total Score Screen
+
+<img src="https://github.com/user-attachments/assets/264d36f2-be87-4669-af81-1efeb66a9064" width="300" hieght="100" />
+
 
 ## Requirements
 - Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
