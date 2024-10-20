@@ -5,11 +5,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class End extends StatelessWidget {
-  var score;
-  final maxIndex = 9;
-  End(int score) {
-    this.score = score;
-  }
+  final int score;
+  final int maxIndex = 9;
+  final List<bool> answers;
+
+  End(this.score, this.answers);
 
   dynamic retText() {
     if (GetStorage().read("TotalScore") == null) {
@@ -21,9 +21,8 @@ class End extends StatelessWidget {
 
   List<Widget> listCard() {
     List<Widget> cards = [];
-
     for (int i = 0; i < maxIndex + 1; i++) {
-      cards.add(CustomCard(i));
+      cards.add(CustomCard(i, answers));
     }
     return cards;
   }
@@ -50,43 +49,45 @@ class End extends StatelessWidget {
                   color: const Color.fromARGB(55, 0, 0, 0),
                   child: Container(
                     margin: const EdgeInsets.all(10),
-                    child: Row(children: [
-                      Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
                           child: Column(
-                        children: [
-                          CircularPercentIndicator(
-                            radius: 50.0,
-                            lineWidth: 10.0,
-                            percent: score / 100,
-                            center: Text(
-                              "Score\n$score",
-                              style: const TextStyle(
-                                  fontSize: 15, color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                            progressColor: Colors.green.shade800,
-                            backgroundColor: Colors.grey.shade800,
+                            children: [
+                              CircularPercentIndicator(
+                                radius: 50.0,
+                                lineWidth: 10.0,
+                                percent: score / 100,
+                                center: Text(
+                                  "Score\n$score",
+                                  style: const TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                                progressColor: Colors.green.shade800,
+                                backgroundColor: Colors.grey.shade800,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                "Total Score",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              Text(
+                                retText(),
+                                style: const TextStyle(
+                                    fontSize: 15, color: Colors.white),
+                              )
+                            ],
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Total Score",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          Text(
-                            retText(),
-                            style: const TextStyle(
-                                fontSize: 15, color: Colors.white),
-                          )
-                        ],
-                      )),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: IconButton(
+                        ),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: IconButton(
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
@@ -98,23 +99,26 @@ class End extends StatelessWidget {
                               Icons.restart_alt_rounded,
                               size: 50,
                               color: Colors.green,
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: const IconButton(
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: const IconButton(
                             onPressed: null,
                             icon: Icon(
                               Icons.leaderboard_rounded,
                               color: Colors.blue,
                               size: 50,
-                            )),
-                      ),
-                      const SizedBox(width: 25)
-                    ]),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 25)
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -133,13 +137,13 @@ class End extends StatelessWidget {
 }
 
 class CustomCard extends StatelessWidget {
-  var index;
-  CustomCard(index) {
-    this.index = index;
-  }
+  final int index;
+  final List<bool> answers;
+
+  CustomCard(this.index, this.answers);
 
   dynamic retColor(int i) {
-    if (answers[i] == true) {
+    if (i < answers.length && answers[i] == true) {
       return Colors.green.shade800;
     } else {
       return Colors.grey.shade800;
@@ -151,15 +155,16 @@ class CustomCard extends StatelessWidget {
     return Card(
       color: retColor(index),
       child: Container(
-          margin: const EdgeInsets.all(10),
-          child: Text(
-            questions[index]["note"],
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          )),
+        margin: const EdgeInsets.all(10),
+        child: Text(
+          questions[index]["note"],
+          style: const TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }

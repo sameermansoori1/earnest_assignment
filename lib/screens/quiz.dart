@@ -14,9 +14,9 @@ class _QuizState extends State<Quiz> {
   int index = 0;
   int score = 0;
   bool answerSelected = false;
-  bool answer = false;
   int? selectedOption;
   final maxIndex = 9;
+  List<bool> answers = List.filled(10, false);
 
   _QuizState() {
     clearAnswers();
@@ -26,27 +26,29 @@ class _QuizState extends State<Quiz> {
 
   void check(int opt) {
     setState(() {
-      selectedOption = opt; // Store the selected option index
-      // Check if the selected option is correct
+      if (selectedOption != null) {
+        if (questions[index]["answer"] ==
+            questions[index]["option"][selectedOption!]) {
+          score -= 10;
+        }
+      }
+
+      selectedOption = opt;
+
       if (questions[index]["answer"] == questions[index]["option"][opt]) {
         score += 10;
-        answer = true;
+        answers[index] = true;
       } else {
-        if (score > 0) {
-          score -= 0;
-        }
-        answer = false;
+        answers[index] = false;
       }
-      addAnswers(answer);
-      answerSelected = true; // Allow the next button to be displayed
+
+      answerSelected = true;
     });
   }
 
   void nextQuestion() {
     setState(() {
-      // Check if it's the last question
       if (index == maxIndex) {
-        // Update total score in GetStorage
         if (GetStorage().read("TotalScore") == null) {
           GetStorage().write("TotalScore", score);
         } else {
@@ -55,17 +57,14 @@ class _QuizState extends State<Quiz> {
         }
         GetStorage().write("PreviousScore", score);
 
-        // Navigate to End screen
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => End(score)),
+          MaterialPageRoute(builder: (context) => End(score, answers)),
         );
       } else {
         index++;
-        selectedOption =
-            null; // Reset the selected option for the next question
-        answerSelected =
-            false; // Reset answer selection state for next question
+        selectedOption = null;
+        answerSelected = false;
       }
     });
   }
@@ -141,7 +140,6 @@ class _QuizState extends State<Quiz> {
                             const SizedBox(
                               height: 50,
                             ),
-
                             ...List.generate(4, (optIndex) {
                               return Container(
                                 margin: const EdgeInsets.all(5),
@@ -189,7 +187,7 @@ class _QuizState extends State<Quiz> {
                   ),
                 ),
               ),
-            )
+            ),
           ]),
         ),
       ),
