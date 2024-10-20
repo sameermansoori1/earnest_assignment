@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "388179869926",
+    "project_id": "earnest-assignment",
+    "storage_bucket": "earnest-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388179869926:android:d641bed169c2c630dbbb27",
+        "android_client_info": {
+          "package_name": "com.example.earnest_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUDxf7k4KsNG0cwTi27jzNN2CIXCBhgqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
