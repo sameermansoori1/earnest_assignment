@@ -32,6 +32,12 @@ You can log in with your existing Google Account and Explore the Quizzes.
 
 <img src="https://github.com/user-attachments/assets/264d36f2-be87-4669-af81-1efeb66a9064" width="300" hieght="100" />
 
+### Packages used in the project
+- firebase_core
+- firebase_auth
+- google_sign_in
+- get_storage
+- percent_indicator 
 
 ## Requirements
 - Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
